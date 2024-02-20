@@ -1,12 +1,17 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import App from "./App";
+import Layout from "./layouts/layout";
 
 export default function AppRoutes() {
   return (
     <Routes>
       <Route
       path="/"
-      element={<App />}
+      element={
+        <Layout>
+          <App />
+        </Layout>
+      }
       />
       <Route 
       path="/profile"
