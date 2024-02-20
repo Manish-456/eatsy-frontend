@@ -15,7 +15,7 @@ export function MobileNav() {
   return (
     <Sheet>
       <SheetTrigger>
-        <Menu className="h-6 w-6 text-orange-500" />
+        <Menu className="h-6 w-6 mt-1 text-orange-500" />
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
