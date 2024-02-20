@@ -1,3 +1,4 @@
+import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { Hero } from "@/components/hero";
 
@@ -12,7 +13,7 @@ function Layout({ children }: Props) {
     <div className="container mx-auto flex-1 py-10">
     {children}
     </div>
-    {/* <Footer /> */}
+    <Footer />
   </div>;
 }
 
