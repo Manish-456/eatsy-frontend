@@ -19,7 +19,7 @@ export default function MobileNavLinks({ user }: MobileNavLinksProps) {
         </div>
       </div>
       <Button variant={"outline"} asChild className="w-full">
-        <Link className="mt-4 px-4 font-semibold" to={"/user-profile"}>
+        <Link className="mt-4 px-4 font-semibold" to={"/profile"}>
           Visit Profile
         </Link>
       </Button>
