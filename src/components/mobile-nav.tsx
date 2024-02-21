@@ -12,9 +12,13 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import MobileNavLinks from "./mobile-nav-links";
+import { useGetCurrentUser } from "@/api/user-api";
 
 export function MobileNav() {
-  const { isAuthenticated, loginWithRedirect, user } = useAuth0();
+  const { isAuthenticated, loginWithRedirect } = useAuth0();
+
+  const {currentUser} = useGetCurrentUser();
+  
   return (
     <Sheet>
       <SheetTrigger>
@@ -33,7 +37,7 @@ export function MobileNav() {
                 Login
               </Button>
             ) : (
-              <MobileNavLinks user={user!} />
+              <MobileNavLinks user={currentUser!} />
             )}
           </SheetDescription>
         </SheetHeader>

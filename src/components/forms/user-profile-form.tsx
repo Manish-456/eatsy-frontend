@@ -15,6 +15,9 @@ import {
 
 import { Input } from "@/components/ui/input";
 import { LoadingButton } from "../loading-button";
+import { User } from "@/types/types";
+import { useEffect } from "react";
+
 
 const formSchema = z.object({
   email: z.optional(z.string()),
@@ -27,26 +30,27 @@ const formSchema = z.object({
 type UserFormData = z.infer<typeof formSchema>;
 
 type UserProfileFormProps = {
+  currentUser: User
   onSave: (userProfileData: UserFormData) => void;
   isLoading: boolean;
 };
 
-export function UserProfileForm({ onSave, isLoading }: UserProfileFormProps) {
+export function UserProfileForm({currentUser, onSave, isLoading }: UserProfileFormProps) {
   const form = useForm<UserFormData>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: "",
-      name: "",
-      addressLine1: "",
-      city: "",
-      country: "",
-    },
+    defaultValues: currentUser
   });
 
+  const isSubmitting = form.formState.isSubmitting;
+
   function onSubmit(values: UserFormData) {
-    console.log(values);
     onSave(values);
+
   }
+
+  useEffect(() => {
+    form.reset(currentUser);
+  }, [currentUser])
 
   return (
     <Form {...form}>
@@ -81,7 +85,7 @@ export function UserProfileForm({ onSave, isLoading }: UserProfileFormProps) {
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input disabled={isLoading} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -95,7 +99,7 @@ export function UserProfileForm({ onSave, isLoading }: UserProfileFormProps) {
               <FormItem className="w-full">
                 <FormLabel>Address Line 1</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input disabled={isLoading} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -108,7 +112,7 @@ export function UserProfileForm({ onSave, isLoading }: UserProfileFormProps) {
               <FormItem className="w-full">
                 <FormLabel>City</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input disabled={isLoading} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -121,7 +125,7 @@ export function UserProfileForm({ onSave, isLoading }: UserProfileFormProps) {
               <FormItem className="w-full">
                 <FormLabel>Country</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input disabled={isLoading} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
