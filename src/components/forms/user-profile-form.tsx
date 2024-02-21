@@ -27,7 +27,7 @@ const formSchema = z.object({
 type UserFormData = z.infer<typeof formSchema>;
 
 type UserProfileFormProps = {
-  onSave?: (userProfileData: UserFormData) => void;
+  onSave: (userProfileData: UserFormData) => void;
   isLoading: boolean;
 };
 
@@ -43,12 +43,9 @@ export function UserProfileForm({ onSave, isLoading }: UserProfileFormProps) {
     },
   });
 
-  // 2. Define a submit handler.
   function onSubmit(values: UserFormData) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
     console.log(values);
-    // onSave(values);
+    onSave(values);
   }
 
   return (
