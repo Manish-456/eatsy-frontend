@@ -41,8 +41,6 @@ export function UserProfileForm({currentUser, onSave, isLoading }: UserProfileFo
     defaultValues: currentUser
   });
 
-  const isSubmitting = form.formState.isSubmitting;
-
   function onSubmit(values: UserFormData) {
     onSave(values);
 
