@@ -25,9 +25,12 @@ export function UsernameMenu({ picture }: UsernameMenuProps) {
       <DropdownMenuTrigger className="flex items-center px-3">
         <UserAvatar imageUrl={picture} />
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56">
+      <DropdownMenuContent className="space-y-2 p-3 w-56">
         <DropdownMenuItem asChild>
           <Link to={"/profile"} className="font-semibold text-[15px]">Visit Profile</Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link to={"/restaurant/manage"} className="font-semibold text-[15px]">Manage Resturant</Link>
         </DropdownMenuItem>
         <Separator />
         <DropdownMenuItem>

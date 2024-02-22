@@ -4,6 +4,7 @@ import Layout from "./layouts/layout";
 import AuthCallback from "./pages/AuthCallback";
 import UserProfilePage from "./pages/UserProfile";
 import ProtectedRoute from "./auth/protected-route";
+import RestaurantSettings from "./pages/RestaurantSetting";
 
 export default function AppRoutes() {
   return (
@@ -23,6 +24,14 @@ export default function AppRoutes() {
           element={
             <Layout>
               <UserProfilePage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/restaurant/manage"
+          element={
+            <Layout>
+              <RestaurantSettings />
             </Layout>
           }
         />

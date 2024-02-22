@@ -25,6 +25,11 @@ export default function MobileNavLinks({ user }: MobileNavLinksProps) {
           Visit Profile
         </Link>
       </Button>
+      <Button variant={"outline"} asChild className="w-full">
+        <Link className="mt-4 px-4 font-semibold" to={"/restaurant/manage"}>
+          Manage Restaurant
+        </Link>
+      </Button>
       <Button 
       type="button"
       onClick={() => logout()}
