@@ -13,7 +13,7 @@ export const useCreateRestaurant = () => {
   ): Promise<ReturnRestaurant> => {
     const accessToken = await getAccessTokenSilently();
 
-    const response = await fetch(`${API_BASE_URL}/api/restaurant`, {
+    const response = await fetch(`${API_BASE_URL}/api/my/restaurant`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -53,7 +53,7 @@ export const useGetMyRestaurant = () => {
 
   const getMyRestaurant = async (): Promise<ReturnRestaurant> => {
     const accessToken = await getAccessTokenSilently();
-    const response = await fetch(`${API_BASE_URL}/api/restaurant`, {
+    const response = await fetch(`${API_BASE_URL}/api/my/restaurant`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -82,7 +82,7 @@ export const useRemoveRestaurantImage = () => {
   const removeRestaurantImageRequest = async () => {
     const accessToken = await getAccessTokenSilently();
     const response = await fetch(
-      `${API_BASE_URL}/api/restaurant/remove-image`,
+      `${API_BASE_URL}/api/my/restaurant/remove-image`,
       {
         method: "DELETE",
         headers: {
@@ -127,7 +127,7 @@ export const useUpdateRestaurant = () => {
   ): Promise<ReturnRestaurant> => {
     const accessToken = await getAccessTokenSilently();
 
-    const response = await fetch(`${API_BASE_URL}/api/restaurant`, {
+    const response = await fetch(`${API_BASE_URL}/api/my/restaurant`, {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${accessToken}`,

@@ -15,7 +15,7 @@ import {
 } from "react-hook-form";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
-import { useRemoveRestaurantImage } from "@/api/restaurant-api";
+import { useRemoveRestaurantImage } from "@/api/my-restaurant-api";
 
 export function ImageSection() {
   const { control, watch } = useFormContext();

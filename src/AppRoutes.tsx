@@ -5,6 +5,7 @@ import AuthCallback from "./pages/AuthCallback";
 import UserProfilePage from "./pages/UserProfile";
 import ProtectedRoute from "./auth/protected-route";
 import RestaurantSettings from "./pages/RestaurantSetting";
+import SearchPage from "./pages/searchPage";
 
 export default function AppRoutes() {
   return (
@@ -24,6 +25,14 @@ export default function AppRoutes() {
           element={
             <Layout>
               <UserProfilePage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/search/:city"
+          element={
+            <Layout>
+              <SearchPage />
             </Layout>
           }
         />
