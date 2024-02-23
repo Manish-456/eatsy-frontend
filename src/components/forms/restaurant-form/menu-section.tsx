@@ -8,7 +8,9 @@ export  function MenuSection() {
    const { fields, append, remove} = useFieldArray({
     control,
     name: 'menuItems'
-   })
+   });
+   
+
   return (
     <div className="space-y-2">
     <h2 className="text-2xl font-bold">Menu Items</h2>
@@ -18,7 +20,7 @@ export  function MenuSection() {
     <FormField
     control={control}
     name='menuItems'
-    render={() => (
+    render={() => ( 
         <FormItem className='flex flex-col gap-2'>
             {
                 fields.map((_, idx) => (

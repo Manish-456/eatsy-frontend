@@ -32,7 +32,7 @@ export function DetailSection() {
           </FormItem>
         )}
       />
-      <div className="flex gap-4">
+      <div className="flex items-center gap-4">
       <FormField
         control={control}
         name="city"
@@ -60,7 +60,7 @@ export function DetailSection() {
         )}
       />
       </div>
-      <div className="flex md:flex-row flex-col gap-4">
+      <div className="flex md:flex-row items-center flex-col gap-4">
 
       <FormField
         control={control}
@@ -80,7 +80,7 @@ export function DetailSection() {
         name="estimatedDeliveryTime"
         render={({ field }) => (
           <FormItem className="w-full">
-            <FormLabel className="line-clamp-1"> Delivery Time (in minutes)</FormLabel>
+            <FormLabel > Delivery Time (in minutes)</FormLabel>
             <FormControl>
                 <Input {...field} placeholder="30"/>
             </FormControl>

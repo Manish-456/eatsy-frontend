@@ -1,11 +1,24 @@
-import { useCreateRestaurant } from "@/api/restaurant-api";
+import {
+  useCreateRestaurant,
+  useGetMyRestaurant,
+  useUpdateRestaurant,
+} from "@/api/restaurant-api";
 import { ManageRestaurantForm } from "@/components/forms/restaurant-form/manage-restaurant-form";
 
 export default function RestaurantSetting() {
   const { createRestaurant, isLoading } = useCreateRestaurant();
+  const { restaurant } = useGetMyRestaurant();
+  const { updateRestaurant, isLoading: isRestaurantUpdating } =
+    useUpdateRestaurant();
+
+  const isEditing = !!restaurant;
   return (
     <>
-      <ManageRestaurantForm isLoading={isLoading} onSave={createRestaurant} />
+      <ManageRestaurantForm
+        isLoading={isLoading || isRestaurantUpdating}
+        onSave={isEditing ? updateRestaurant : createRestaurant}
+        restaurant={restaurant}
+      />
     </>
   );
 }

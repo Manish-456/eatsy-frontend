@@ -9,10 +9,13 @@ import { Separator } from "@/components/ui/separator";
 import { CuisineSection } from "./cuisine-section";
 import { MenuSection } from "./menu-section";
 import { ImageSection } from "./image-section";
+import { ReturnRestaurant } from "@/types/types";
+import { useEffect } from "react";
 
 type ManageRestaurantProps = {
   onSave: (restaurantData: FormData) => void;
   isLoading: boolean;
+  restaurant?: ReturnRestaurant;
 };
 
 const formSchema = z.object({
@@ -38,13 +41,18 @@ const formSchema = z.object({
   }),
   menuItems: z.array(
     z.object({
+      _id: z.optional(z.string()),
       name: z.string().min(1, "Name is required"),
       price: z.coerce.number().min(1, "Price is required"),
     })
-  ),
+    ),
+    imageUrl: z.string().optional(),
   imageFile: z.instanceof(File, {
     message: "Image is required",
-  }),
+  }).optional(),
+}).refine(data => data.imageUrl || data.imageFile, {
+  message: "Either image URL or image File must be provided",
+  path: ["imageFile"]
 });
 
 type RestaurantFormData = z.infer<typeof formSchema>;
@@ -52,6 +60,7 @@ type RestaurantFormData = z.infer<typeof formSchema>;
 export function ManageRestaurantForm({
   onSave,
   isLoading,
+  restaurant: restaurantData,
 }: ManageRestaurantProps) {
   const form = useForm<RestaurantFormData>({
     resolver: zodResolver(formSchema),
@@ -66,35 +75,68 @@ export function ManageRestaurantForm({
     },
   });
 
+  useEffect(() => {
+    if (!restaurantData) return;
+    const deliveryPrice = restaurantData.restaurant.deliveryPrice / 100;
+    const formattedDeliveryPrice = parseInt(deliveryPrice.toFixed(2));
+
+    const menuItemsFormatted = restaurantData.menuItems.map((item) => ({
+     ...item,
+      price: parseInt((item.price / 100).toFixed(2)),
+    }));
+    const { _id, ...rest } = restaurantData.restaurant;
+
+    const updatedRestaurant = {
+      ...rest,
+      deliveryPrice: formattedDeliveryPrice,
+      menuItems: menuItemsFormatted,
+    };
+
+    form.reset(updatedRestaurant);
+  }, [restaurantData, form]);
+
   const onSubmit = (values: RestaurantFormData) => {
     const formData = new FormData();
-    
-    formData.append('name', values.name);
-    formData.append('city', values.city);
-    formData.append('country', values.country);
 
-    formData.append('deliveryPrice', (values.deliveryPrice * 100).toString());
-    formData.append('estimatedDeliveryTime', values.estimatedDeliveryTime.toString());
-    
+    formData.append("name", values.name);
+    formData.append("city", values.city);
+    formData.append("country", values.country);
+
+    formData.append("deliveryPrice", (values.deliveryPrice * 100).toString());
+    formData.append(
+      "estimatedDeliveryTime",
+      values.estimatedDeliveryTime.toString()
+    );
+
     values.cuisines.forEach((cuisine, index) => {
       formData.append(`cuisines[${index}]`, cuisine);
-    })
+    });
 
     values.menuItems.forEach((menuItem, index) => {
       formData.append(`menuItems[${index}][name]`, menuItem.name);
-      formData.append(`menuItems[${index}][price]`, (menuItem.price * 100).toString());
-    })
+      if(restaurantData && menuItem._id){
+        formData.append(`menuItems[${index}][_id]`, menuItem._id)
+      }
+      formData.append(
+        `menuItems[${index}][price]`,
+        (menuItem.price * 100).toString()
+      );
+    });
 
-    if(values.imageFile){
-      formData.append("imageFile", values.imageFile)
+    if (values.imageFile) {
+      formData.append("imageFile", values.imageFile);
     }
 
     onSave(formData);
-  }
+  };
 
-  return <Form {...form}>
-    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 md:p-10">
-        <DetailSection/>
+  return (
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-8 md:p-10"
+      >
+        <DetailSection />
         <Separator />
         <CuisineSection />
         <Separator />
@@ -103,6 +145,7 @@ export function ManageRestaurantForm({
         <ImageSection />
         <Separator />
         {isLoading ? <LoadingButton /> : <Button type="submit">Submit</Button>}
-    </form>
-  </Form>;
+      </form>
+    </Form>
+  );
 }

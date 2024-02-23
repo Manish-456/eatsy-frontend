@@ -26,9 +26,10 @@ export type TRestaurant = {
    name: string;
    city: string;
    country: string;
-   deliveryPrice: string;
-   estimatedDeliveryTime: string;
+   deliveryPrice: number;
+   estimatedDeliveryTime: number;
    createdAt: string;
-   menuItems?: TMenuItem[]
+   menuItems?: TMenuItem[];
+   imageUrl?: string;
    updatedAt: string
 }
