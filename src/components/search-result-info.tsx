@@ -19,7 +19,6 @@ export default function SearchResultInfo({
           Change Location
         </Link>
       </span>
-      insert sort dropdown here
     </div>
   );
 }
