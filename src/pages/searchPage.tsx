@@ -1,4 +1,5 @@
 import { useSearchRestaurants } from "@/api/restaurant-api";
+import { PaginationSelector } from "@/components/pagination-selector";
 import SearchResultCard from "@/components/search-result-card";
 import SearchResultInfo from "@/components/search-result-info";
 import { SearchBar, SearchForm } from "@/components/searchBar";
@@ -7,14 +8,39 @@ import { useParams } from "react-router-dom";
 
 export type SearchState = {
   searchQuery: string;
+  page: number;
 };
 
 export default function SearchPage() {
   const { city } = useParams();
   const [searchState, setSearchState] = useState<SearchState>({
     searchQuery: "",
+    page: 1
   });
   const { results, isLoading } = useSearchRestaurants(searchState, city);
+
+  const handleSearchQuery = (values: SearchForm) => {
+    setSearchState((prevState) => ({
+      ...prevState,
+      searchQuery: values.searchQuery,
+      page: 1
+    }));
+  };
+
+  const resetSearch = () => {
+    setSearchState((prev) => ({
+      ...prev,
+      searchQuery: "",
+      page: 1
+    }));
+  };
+
+  const setPage = (page: number) => {
+    setSearchState(prevState => ({
+      ...prevState,
+      page
+    }))
+  }
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -23,19 +49,7 @@ export default function SearchPage() {
     return <div>No results found</div>;
   }
 
-  const handleSearchQuery = (values: SearchForm) => {
-    setSearchState((prevState) => ({
-      ...prevState,
-      searchQuery: values.searchQuery,
-    }));
-  };
-
-  const resetSearch = () => {
-    setSearchState((prev) => ({
-      ...prev,
-      searchQuery: "",
-    }));
-  };
+  
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-5">
@@ -52,6 +66,11 @@ export default function SearchPage() {
         {results.data.map((restaurant) => (
           <SearchResultCard restaurant={restaurant} key={restaurant._id} />
         ))}
+        <PaginationSelector 
+        pages={results.pagination.pages}
+        page={results.pagination.page}
+        onPageChange={setPage}
+        />
       </div>
     </div>
   );
