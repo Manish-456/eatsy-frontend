@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { TRestaurant } from "@/types/types";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { Banknote, Clock, Dot, LocateFixedIcon } from "lucide-react";
+import { Banknote, Clock, LocateFixedIcon } from "lucide-react";
 import { Button } from "./ui/button";
 
 type Props = {
