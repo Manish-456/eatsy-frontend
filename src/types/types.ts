@@ -30,6 +30,13 @@ export type TRestaurant = {
    estimatedDeliveryTime: number;
    createdAt: string;
    menuItems?: TMenuItem[];
+   cuisines: string[];
    imageUrl?: string;
    updatedAt: string
 }
+
+export type RestaurantSearchResponse = {data: TRestaurant[], menuItems? : [], pagination: {
+    page: number,
+    total: number,
+    pages: number
+} }

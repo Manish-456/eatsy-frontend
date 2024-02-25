@@ -6,6 +6,7 @@ import { Search, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
+import { useEffect } from "react";
 
 const formSchema = z.object({
   searchQuery: z.string({
@@ -19,11 +20,22 @@ type SearchBarProps = {
   onSubmit: (formData: SearchForm) => void;
   placeholder: string;
   onReset?: () => void;
+  className?: string;
+  searchQuery?: string;
 };
 
-export function SearchBar({ onSubmit, placeholder, onReset }: SearchBarProps) {
+export function SearchBar({
+  onSubmit,
+  placeholder,
+  onReset,
+  searchQuery,
+  className
+}: SearchBarProps) {
   const form = useForm<SearchForm>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      searchQuery,
+    },
   });
 
   const handleReset = () => {
@@ -31,14 +43,24 @@ export function SearchBar({ onSubmit, placeholder, onReset }: SearchBarProps) {
       searchQuery: "",
     });
 
-    if(onReset) onReset();
+    if (onReset) onReset();
   };
+
+  useEffect(() => {
+    form.reset({ searchQuery });
+  }, [form, searchQuery]);
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className={cn(`flex items-center flex-1 gap-3 justify-between border-2 rounded-full p-3 mx-5`, {
-        "border-red-500": form.formState.errors.searchQuery
-      })}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className={cn(
+          `flex mx-4 items-center flex-1 gap-3 justify-between border-2 rounded-full p-3`, className,
+          {
+            "border-red-500": form.formState.errors.searchQuery,
+          }
+        )}
+      >
         <Search
           strokeWidth={2.5}
           size={30}
@@ -59,19 +81,20 @@ export function SearchBar({ onSubmit, placeholder, onReset }: SearchBarProps) {
             </FormItem>
           )}
         />
-        {form.formState.isDirty && (
-          <Button
-            onClick={handleReset}
-            type="button"
-            variant={"ghost"}
-            size={"icon"}
-            className="rounded-full"
-          >
-           <X className="h-4 w-4"/>
-          </Button>
-        )}
 
-        <Button type="submit" className="rounded-full">Search</Button>
+        <Button
+          onClick={handleReset}
+          type="button"
+          variant={"ghost"}
+          size={"icon"}
+          className="rounded-full"
+        >
+          <X className="h-4 w-4" />
+        </Button>
+
+        <Button type="submit" className="rounded-full">
+          Search
+        </Button>
       </form>
     </Form>
   );
