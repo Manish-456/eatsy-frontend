@@ -6,6 +6,7 @@ import UserProfilePage from "./pages/UserProfile";
 import ProtectedRoute from "./auth/protected-route";
 import RestaurantSettings from "./pages/RestaurantSetting";
 import SearchPage from "./pages/searchPage";
+import DetailPage from "./pages/DetailPage";
 
 export default function AppRoutes() {
   return (
@@ -19,20 +20,28 @@ export default function AppRoutes() {
         }
       />
       <Route path="/auth-callback" element={<AuthCallback />} />
+        <Route
+          path="/search/:city"
+          element={
+            <Layout>
+              <SearchPage />
+            </Layout>
+          }
+        />
+          <Route
+            path="/restaurant/detail/:restaurantId"
+            element={
+              <Layout>
+                <DetailPage />
+              </Layout>
+            }
+            />
       <Route element={<ProtectedRoute />}>
         <Route
           path="/profile"
           element={
             <Layout>
               <UserProfilePage />
-            </Layout>
-          }
-        />
-        <Route
-          path="/search/:city"
-          element={
-            <Layout>
-              <SearchPage />
             </Layout>
           }
         />

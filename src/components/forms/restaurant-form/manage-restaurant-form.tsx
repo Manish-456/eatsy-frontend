@@ -28,6 +28,9 @@ const formSchema = z.object({
   country: z.string({
     required_error: "Country is required",
   }),
+  description: z.string({
+    required_error: "Description is required"
+  }),
   deliveryPrice: z.coerce.number({
     required_error: "Delivery price is required",
     invalid_type_error: "Must be a valid number",
@@ -107,6 +110,8 @@ export function ManageRestaurantForm({
       "estimatedDeliveryTime",
       values.estimatedDeliveryTime.toString()
     );
+
+    formData.append("description", values.description)
 
     values.cuisines.forEach((cuisine, index) => {
       formData.append(`cuisines[${index}]`, cuisine);

@@ -22,12 +22,13 @@ export type TMenuItem = {
 
 export type TRestaurant = {
    _id: string;
-   user: string;
+   user: string | User;
    name: string;
    city: string;
    country: string;
    deliveryPrice: number;
    estimatedDeliveryTime: number;
+   description: string;
    createdAt: string;
    menuItems?: TMenuItem[];
    cuisines: string[];

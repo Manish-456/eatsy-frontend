@@ -42,7 +42,7 @@ export function CuisineFilter({
         </div>
       </div>
       <div className="space-y-2 border p-2 rounded-lg flex flex-col">
-        {CUISINE_LIST.slice(0, isExpanded ? CUISINE_LIST.length : 4).map(
+        {CUISINE_LIST.slice(0, isExpanded ? CUISINE_LIST.length : 7).map(
           (cuisine, index) => {
             const isSelected = selectedCuisines?.includes(cuisine);
 
