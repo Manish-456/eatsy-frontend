@@ -17,6 +17,7 @@ import { TMenuItem } from "@/types/types";
 import { CheckoutButton } from "@/components/checkout-button";
 import { UserFormData } from "@/components/forms/user-profile-form";
 import { useGetCurrentUser } from "@/api/user-api";
+import { useCreateCheckoutSession } from "@/api/order-api";
 
 export interface CartItem {
   _id: string;
@@ -28,6 +29,7 @@ export interface CartItem {
 export default function DetailPage() {
   const { restaurantId } = useParams();
   const { data, isLoading } = useGetRestaurant(restaurantId);
+  const { createCheckoutSession, isLoading: isCheckoutLoading } = useCreateCheckoutSession()
   const {currentUser} = useGetCurrentUser();
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
     const storedCartItems = sessionStorage.getItem(`cartItems-${restaurantId}-${currentUser?._id}`);
@@ -79,9 +81,28 @@ export default function DetailPage() {
     });
   };
 
-  const onCheckout = (userData: UserFormData) => {
-    console.log("userData", userData);
+  const onCheckout = async(userData: UserFormData) => {
+    if(!data?.restaurant) return;
     
+    const checkoutData = {
+      cartItems: cartItems.map((cartItem) => ({
+        name: cartItem.name,
+        quantity: cartItem.quantity.toString(),
+        menuItemId: cartItem._id
+      })),
+
+      restaurantId: data.restaurant._id,
+      deliveryDetails: {
+        name: userData.name,
+        email: userData.email as string,
+        addressLine1: userData.addressLine1,
+        city: userData.city,
+        country: userData.country
+      }
+    }
+
+    const response = await createCheckoutSession(checkoutData)
+    window.location.href = response.url;
   }
 
   if (isLoading || !data) {
@@ -120,7 +141,7 @@ export default function DetailPage() {
               cartItems={cartItems}
             />
             <CardFooter>
-              <CheckoutButton onCheckout={onCheckout} disabled={cartItems.length === 0} />
+              <CheckoutButton onCheckout={onCheckout} isLoading={isCheckoutLoading} disabled={cartItems.length === 0} />
             </CardFooter>
           </Card>
         </div>
