@@ -102,6 +102,7 @@ export default function DetailPage() {
     }
 
     const response = await createCheckoutSession(checkoutData)
+    sessionStorage.removeItem(`cartItems-${restaurantId}-${currentUser?._id}`)
     window.location.href = response.url;
   }
 
