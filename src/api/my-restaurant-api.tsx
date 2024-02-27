@@ -1,4 +1,4 @@
-import { ReturnRestaurant } from "@/types/types";
+import { ReturnRestaurant, TOrder, UpdateStatusOrderRequest } from "@/types/types";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { toast } from "sonner";
@@ -154,6 +154,82 @@ export const useUpdateRestaurant = () => {
 
   return {
     updateRestaurant,
+    isLoading
+  }
+};
+
+export const useGetMyRestaurantOrder = () => {
+  const { getAccessTokenSilently } = useAuth0();
+
+  const getMyRestaurantOrderRequest = async (): Promise<TOrder[]> => {
+    const accessToken = await getAccessTokenSilently();
+
+    const response = await fetch(`${API_BASE_URL}/api/my/restaurant/order`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to get orders`);
+    }
+
+    return response.json();
+  };
+
+  const { data: myRestaurantOrders, isLoading: isOrderLoading } = useQuery(
+    ["myRestaurantOrders"],
+    getMyRestaurantOrderRequest
+  );
+
+  return {
+    myRestaurantOrders,
+    isOrderLoading,
+  };
+};
+
+export const useUpdateMyRestaurantOrder = () => {
+  const { getAccessTokenSilently } = useAuth0();
+  const queryClient = useQueryClient();
+
+  const updateMyRestaurantOrderRequest = async (
+    updateStatusOrderRequest: UpdateStatusOrderRequest
+  ): Promise<ReturnRestaurant> => {
+    const accessToken = await getAccessTokenSilently();
+
+    const response = await fetch(`${API_BASE_URL}/api/my/restaurant/order/${updateStatusOrderRequest.orderId}/status`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        status: updateStatusOrderRequest.status
+      }),
+    });
+
+    if (!response.ok) throw new Error(`Failed to update order`);
+
+    return response.json();
+  };
+
+ const {mutateAsync: updateOrderStatus, isLoading, error, isSuccess} = useMutation({
+    mutationFn: updateMyRestaurantOrderRequest,
+    onSuccess: () => queryClient.invalidateQueries(["myRestaurantOrders"])
+  });
+
+  if(isSuccess){
+    toast.success(`Order updated!`);
+  }
+
+  if(error){
+    toast.error(`Failed to update order`);
+  }
+
+  return {
+    updateOrderStatus,
     isLoading
   }
 };

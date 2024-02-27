@@ -73,5 +73,9 @@ export type TOrder = {
     totalAmount: number,
     status: ORDER_STATUS,
     createdAt: string
-    
+}
+
+export type UpdateStatusOrderRequest = {
+    orderId: string;
+    status: string;
 }

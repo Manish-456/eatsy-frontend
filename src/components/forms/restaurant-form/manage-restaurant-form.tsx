@@ -139,7 +139,7 @@ export function ManageRestaurantForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8 md:p-10"
+        className="space-y-8"
       >
         <DetailSection />
         <Separator />

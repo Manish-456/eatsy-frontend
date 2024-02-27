@@ -23,7 +23,7 @@ export const useGetMyOrder = () => {
     });
 
     if (!response.ok) {
-      throw new Error(`Unable to create checkout session`);
+      throw new Error(`Failed to get orders`);
     }
 
     return response.json();
@@ -31,7 +31,10 @@ export const useGetMyOrder = () => {
 
   const { data: myOrders, isLoading: isOrderLoading } = useQuery(
     ["myOrders"],
-    getMyOrderRequest
+    getMyOrderRequest,
+    {
+      refetchInterval: 5000
+    }
   );
 
   return {
@@ -42,7 +45,7 @@ export const useGetMyOrder = () => {
 
 export const useCreateCheckoutSession = () => {
   const { getAccessTokenSilently } = useAuth0();
-
+  
   const createCheckoutSessionRequest = async (
     checkoutSessionRequest: CheckoutSessionRequest
   ) => {
