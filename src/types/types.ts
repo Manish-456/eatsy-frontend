@@ -8,6 +8,20 @@ export type User = {
     picture: string;
 }
 
+export type TDeliveryDetails = {
+    name: string;
+    email: string;
+    city: string;
+    country: string;
+    addressLine1: string;
+}
+
+export type TCartItems = {
+    menuItemId: string;
+    name: string;
+    quantity: string;
+}
+
 export type ReturnRestaurant = {
     restaurant: TRestaurant;
     menuItems: TMenuItem[]
@@ -40,4 +54,24 @@ export type RestaurantSearchResponse = {data: TRestaurant[], menuItems? : [], pa
     page: number,
     total: number,
     pages: number
-} }
+} };
+
+export type ORDER_STATUS =  "placed" | "paid" | "inprogress" | "outForDelivery" | "delivered"
+
+export type CheckoutSessionRequest = {
+    cartItems: TCartItems[];
+    restaurantId: string;
+    deliveryDetails: TDeliveryDetails
+}
+
+export type TOrder = {
+    _id: string;
+    restaurant: TRestaurant;
+    user: User;
+    deliveryDetails: TDeliveryDetails;
+    cartItems: TCartItems[];
+    totalAmount: number,
+    status: ORDER_STATUS,
+    createdAt: string
+    
+}

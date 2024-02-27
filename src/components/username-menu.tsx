@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 
 import {
@@ -11,6 +11,8 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { UserAvatar } from "@/components/user-avatar";
+import { NAV_LINKS } from "@/config/nav-link-config";
+import { cn } from "@/lib/utils";
 
 
 interface UsernameMenuProps {
@@ -19,6 +21,7 @@ interface UsernameMenuProps {
 
 export function UsernameMenu({ picture }: UsernameMenuProps) {
   const { logout } = useAuth0();
+  const { pathname } = useLocation();
   
   return (
     <DropdownMenu>
@@ -26,12 +29,13 @@ export function UsernameMenu({ picture }: UsernameMenuProps) {
         <UserAvatar imageUrl={picture} />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="space-y-2 p-3 w-56">
-        <DropdownMenuItem asChild>
-          <Link to={"/profile"} className="font-semibold text-[15px]">Visit Profile</Link>
+        {
+          NAV_LINKS.map(link => (
+        <DropdownMenuItem asChild key={link.label}>
+          <Link to={link.route} className={cn("font-semibold text-[15px]", pathname === link.route && "bg-secondary")}>{link.label}</Link>
         </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <Link to={"/restaurant/manage"} className="font-semibold text-[15px]">Manage Resturant</Link>
-        </DropdownMenuItem>
+          ))
+        }
         <Separator />
         <DropdownMenuItem>
           <Button className="flex flex-1 font-bold" onClick={() => logout()}>

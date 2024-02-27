@@ -9,6 +9,7 @@ export default function MainNav() {
   return (
     <>
       {isAuthenticated ? (
+        
         <UsernameMenu picture={currentUser?.picture!}/>
       ) : (
         <Button className="font-semibold" onClick={() => loginWithRedirect()}>
