@@ -1,5 +1,6 @@
 import { useSearchRestaurants } from "@/api/restaurant-api";
 import { CuisineFilter } from "@/components/cuisine-filter";
+import { MobileCuisineFilter } from "@/components/mobile-cuisine-filter";
 import { PaginationSelector } from "@/components/pagination-selector";
 import SearchResultCard from "@/components/search-result-card";
 import SearchResultInfo from "@/components/search-result-info";
@@ -73,7 +74,17 @@ export default function SearchPage() {
 
   return (
     <div className="grid items-start grid-cols-1 lg:grid-cols-[250px_1fr] gap-5">
-      <div id="cuisines-list">
+      <div id="mobile-cuisines-list" className="md:hidden block">
+        <MobileCuisineFilter>
+        <CuisineFilter
+          isExpanded={isExpanded}
+          onExpandedClick={() => setIsExpanded((prev) => !prev)}
+          onChange={setSelectedCuisines}
+          selectedCuisines={searchState.selectedCuisines}
+        />
+        </MobileCuisineFilter>
+      </div>
+      <div id="cuisines-list" className="md:block hidden">
         <CuisineFilter
           isExpanded={isExpanded}
           onExpandedClick={() => setIsExpanded((prev) => !prev)}

@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { Check, ChevronDown, ChevronUp } from "lucide-react";
 import { ChangeEvent } from "react";
 import { Button } from "./ui/button";
+import { ScrollArea } from "./ui/scroll-area";
 
 type Props = {
   onChange: (cuisines: string[]) => void;
@@ -41,6 +42,7 @@ export function CuisineFilter({
           Reset Filters
         </div>
       </div>
+      <ScrollArea className="h-full">
       <div className="space-y-2 border p-2 rounded-lg flex flex-col">
         {CUISINE_LIST.slice(0, isExpanded ? CUISINE_LIST.length : 7).map(
           (cuisine, index) => {
@@ -55,7 +57,7 @@ export function CuisineFilter({
                   value={cuisine}
                   checked={isSelected}
                   onChange={handleCuisinesChange}
-                />
+                  />
                 <Label
                   htmlFor={`cuisine_${cuisine}`}
                   className={cn(
@@ -63,7 +65,8 @@ export function CuisineFilter({
                     {
                       "bg-orange-500 hover:bg-orange-500/90": isSelected,
                     }
-                  )}
+                    
+                    )}
                 >
                   {isSelected && <Check size={20} strokeWidth={3} />}
                   {cuisine}
@@ -71,12 +74,12 @@ export function CuisineFilter({
               </div>
             );
           }
-        )}
+          )}
         <Button
           variant={"link"}
-          className="flex-1 mt-4"
+          className="flex-1  mt-4"
           onClick={onExpandedClick}
-        >
+          >
           {isExpanded ? (
             <span className="flex flex-row">
               View Less <ChevronUp className="h-6 w-6"/>
@@ -88,6 +91,7 @@ export function CuisineFilter({
           )}
         </Button>
       </div>
+          </ScrollArea>
     </>
   );
 }

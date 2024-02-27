@@ -9,10 +9,10 @@ type Props = {
 
 function Layout({ children, showHero = false }: Props) {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col overflow-y-auto scrollbar min-h-screen">
       <Header />
       {showHero && <Hero />}
-      <div className="md:container px-4 mx-auto flex-1 py-10">{children}</div>
+      <div className="max-w-7xl w-full px-6 mx-auto flex-1 py-10">{children}</div>
       <Footer />
     </div>
   );

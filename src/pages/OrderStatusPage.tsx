@@ -18,7 +18,7 @@ export default function OrderStatusPage() {
     }
 
   return (
-    <div className='space-y-10'>
+    <div className='space-y-10 w-full'>
       {
         myOrders.map(order => (
             <div key={order._id} className="shadow-md dark:border  space-y-10 md:p-10 p-4 rounded-lg">
