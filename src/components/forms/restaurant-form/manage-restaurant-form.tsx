@@ -2,11 +2,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Form } from "@/components/ui/form";
-import { DetailSection } from "./detail-section";
+import { DetailSection, DetailSectionSkeleton } from "./detail-section";
 import { LoadingButton } from "@/components/loading-button";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { CuisineSection } from "./cuisine-section";
+import { CuisineSection, CuisineSectionSkeleton } from "./cuisine-section";
 import { MenuSection } from "./menu-section";
 import { ImageSection } from "./image-section";
 import { ReturnRestaurant } from "@/types/types";
@@ -16,6 +16,7 @@ type ManageRestaurantProps = {
   onSave: (restaurantData: FormData) => void;
   isLoading: boolean;
   restaurant?: ReturnRestaurant;
+  isRestaurantDataLoading? : boolean;
 };
 
 const formSchema = z.object({
@@ -63,6 +64,7 @@ type RestaurantFormData = z.infer<typeof formSchema>;
 export function ManageRestaurantForm({
   onSave,
   isLoading,
+  isRestaurantDataLoading,
   restaurant: restaurantData,
 }: ManageRestaurantProps) {
   const form = useForm<RestaurantFormData>({
@@ -77,6 +79,13 @@ export function ManageRestaurantForm({
       ],
     },
   });
+
+  if(isRestaurantDataLoading){
+    return <div>
+      <DetailSectionSkeleton />
+      <CuisineSectionSkeleton />
+    </div>
+  }
 
   useEffect(() => {
     if (!restaurantData) return;

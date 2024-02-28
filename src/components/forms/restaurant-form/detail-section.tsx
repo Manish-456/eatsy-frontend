@@ -7,6 +7,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
 import { useFormContext } from "react-hook-form";
 
@@ -105,4 +106,26 @@ export function DetailSection() {
         </div>
     </div>
   );
+}
+
+export function DetailSectionSkeleton () {
+  return (
+    <div className="space-y-6">
+    <div>
+      <Skeleton className="w-80 h-8 mb-2" />
+      <Skeleton className="w-64 h-6" />
+    </div>
+
+    <Skeleton className="w-full h-8 mt-8" />
+    <Skeleton className="w-full h-24"/>
+    <div className="flex md:flex-row items-center flex-col gap-4">
+      <Skeleton className="h-8 w-full" />
+      <Skeleton className="h-8 w-full" />
+    </div>
+    <div className="flex md:flex-row items-center flex-col gap-4">
+      <Skeleton className="h-8 w-full" />
+      <Skeleton className="h-8 w-full" />
+    </div>
+    </div>
+  )
 }

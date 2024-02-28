@@ -3,6 +3,7 @@ import { TRestaurant } from "@/types/types";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Banknote, Clock, LocateFixedIcon } from "lucide-react";
 import { Button } from "./ui/button";
+import { Skeleton } from '@/components/ui/skeleton';
 
 type Props = {
   restaurant: TRestaurant;
@@ -69,4 +70,49 @@ export default function SearchResultCard({ restaurant }: Props) {
       </div>
     </Link>
   );
+}
+
+export function SearchResultCardSkeleton () {
+  return (
+    <div className="grid lg:grid-cols-[2fr_3fr] gap-5">
+        <AspectRatio ratio={16/10}>
+          <Skeleton className="h-full w-full rounded-md" />
+        </AspectRatio>
+
+        <div className="gap-2  flex flex-col">
+          <Skeleton className="h-12 w-64" />
+
+        <div className="grid grid-cols-1 gap-2">
+        <div className="flex flex-row gap-2 flex-wrap">
+            {new Array(10).fill("").map((_, index) => (
+              <div className="flex gap-2" key={index}>
+                <Skeleton className="h-6 w-24" />
+              </div>
+            ))}
+            
+            </div>
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center gap-2 text-green-600">
+                <Skeleton className="h-5 w-5 rounded-full" />
+                <Skeleton className="h-5 w-12" />
+              </div>
+              <div className="flex items-center gap-2">
+                <Skeleton className="h-5 w-8 rounded-md" />
+
+                <Skeleton className="h-5 w-12">
+                  {" "}
+                </Skeleton>
+              </div>
+            <div className="flex ml-auto items-center -mt-8 mr-4 gap-2">
+            <Skeleton className="h-5 w-8 rounded-md" />
+
+<Skeleton className="h-5 w-24">
+  {" "}
+</Skeleton>
+</div>
+            </div>
+          </div>
+        </div>
+    </div>
+  )
 }

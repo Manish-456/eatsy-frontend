@@ -2,6 +2,7 @@ import { FormDescription, FormField, FormItem } from "@/components/ui/form"
 import { CUISINE_LIST } from "@/constants/restaurant-options"
 import { useFormContext } from "react-hook-form"
 import { CuisineCheckbox } from "./cuisine-checkbox"
+import { Skeleton } from "@/components/ui/skeleton"
 
 export function CuisineSection() {
    const {control} = useFormContext()
@@ -27,5 +28,27 @@ export function CuisineSection() {
               )}
               />
     </div>
+  )
+}
+
+export function CuisineSectionSkeleton(){
+  return (
+    <div className="space-y-2 mt-8">
+    <Skeleton className="w-80 h-8 mb-2" />
+    <Skeleton className="w-64 h-6" />
+
+    <div className="grid lg:grid-cols-5 mt-8 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-6">
+    <Skeleton className="w-24 h-6" />
+    <Skeleton className="w-24 h-6" />
+    <Skeleton className="w-24 h-6" />
+    <Skeleton className="w-24 h-6" />
+    <Skeleton className="w-24 h-6" />
+    <Skeleton className="w-24 h-6" />
+    <Skeleton className="w-24 h-6" />
+    <Skeleton className="w-24 h-6" />
+    <Skeleton className="w-24 h-6" />
+    <Skeleton className="w-24 h-6" />
+</div>
+  </div>
   )
 }

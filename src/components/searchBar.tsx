@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 import { useEffect } from "react";
+import { Skeleton } from "./ui/skeleton";
 
 const formSchema = z.object({
   searchQuery: z.string({
@@ -98,4 +99,13 @@ export function SearchBar({
       </form>
     </Form>
   );
+}
+
+export function SearchBarSkeleton(){
+  return (
+    <div className="rounded-md"
+    >
+    <Skeleton className="p-8 rounded-full w-full" />
+    </div>
+  )
 }

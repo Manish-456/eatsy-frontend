@@ -10,13 +10,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function RestaurantSetting() {
   const { createRestaurant, isLoading } = useCreateRestaurant();
-  const { restaurant } = useGetMyRestaurant();
+  const { restaurant, isLoading: isRestaurantDataLoading } = useGetMyRestaurant();
   const { updateRestaurant, isLoading: isRestaurantUpdating } =
     useUpdateRestaurant();
 
     const { myRestaurantOrders: orders } = useGetMyRestaurantOrder()
 
   const isEditing = !!restaurant;
+
 
   return (
     <div>
@@ -36,6 +37,7 @@ export default function RestaurantSetting() {
       <TabsContent value="manage-restaurant"  className="space-y-5  py-10 rounded-lg">
       <ManageRestaurantForm
         isLoading={isLoading || isRestaurantUpdating}
+        isRestaurantDataLoading={isRestaurantDataLoading}
         onSave={isEditing ? updateRestaurant : createRestaurant}
         restaurant={restaurant}
       />
