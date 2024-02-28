@@ -23,6 +23,7 @@ import { UserFormData } from "@/components/forms/user-profile-form";
 import { useGetCurrentUser } from "@/api/user-api";
 import { useCreateCheckoutSession } from "@/api/order-api";
 import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
 
 export interface CartItem {
   _id: string;
@@ -44,7 +45,10 @@ export default function DetailPage() {
     return storedCartItems ? JSON.parse(storedCartItems) : [];
   });
 
+  const isRestaurantOwner = data?.restaurant.user === currentUser?._id;
+
   const addToCart = (menuItem: TMenuItem) => {
+    if(isRestaurantOwner) return;
     setCartItems((prev) => {
       const existingCartItem = prev.find(
         (cartItem) => cartItem._id === menuItem._id
@@ -127,7 +131,7 @@ export default function DetailPage() {
           alt={`${data.restaurant.name}_image`}
         />
       </AspectRatio>
-      <div className="grid md:grid-cols-[4fr_2fr] gap-5 ">
+      <div className={cn("w-full", !isRestaurantOwner && "grid md:grid-cols-[4fr_2fr] gap-5")}>
         <div className="flex flex-col gap-4">
           <RestaurantInfo restaurant={data.restaurant} />
           <Card>
@@ -143,6 +147,8 @@ export default function DetailPage() {
           </Card>
         </div>
         <div>
+        {
+            !isRestaurantOwner &&
           <Card>
             <OrderSummary
               removeFromCart={removeFromCart}
@@ -154,9 +160,10 @@ export default function DetailPage() {
                 onCheckout={onCheckout}
                 isLoading={isCheckoutLoading}
                 disabled={cartItems.length === 0}
-              />
+                />
             </CardFooter>
           </Card>
+              }
         </div>
       </div>
     </div>
