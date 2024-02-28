@@ -10,6 +10,7 @@ import {
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Skeleton } from "@/components/ui/skeleton";
 import { LocateFixedIcon } from "lucide-react";
+import { Link } from 'react-router-dom';
 
 export default function OrderStatusPage() {
   const { myOrders, isOrderLoading } = useGetMyOrder();
@@ -35,7 +36,7 @@ export default function OrderStatusPage() {
           <OrderStatusHeader order={order} />
           <div className="grid gap-10 md:grid-cols-2">
             <OrderStatusDetail order={order} />
-            <div className="flex flex-col gap-2">
+            <Link to={`/restaurant/detail/${order.restaurant._id}`} className="flex flex-col gap-2">
               <AspectRatio ratio={16 / 5}>
                 <img
                   src={order.restaurant.imageUrl}
@@ -53,7 +54,7 @@ export default function OrderStatusPage() {
                   {order.restaurant.city}, {order.restaurant.country}
                 </p>
               </div>
-            </div>
+            </Link>
           </div>
         </div>
       ))}
