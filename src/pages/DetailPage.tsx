@@ -1,11 +1,15 @@
 import { useParams } from "react-router-dom";
 import { useGetRestaurant } from "@/api/restaurant-api";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { RestaurantInfo } from "@/components/restaurant-info";
+import {
+  RestaurantInfo,
+  RestaurantInfoSkeleton,
+} from "@/components/restaurant-info";
 import { MenuItem } from "@/components/menu-item";
 import {
   Card,
   CardContent,
+  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -18,6 +22,7 @@ import { CheckoutButton } from "@/components/checkout-button";
 import { UserFormData } from "@/components/forms/user-profile-form";
 import { useGetCurrentUser } from "@/api/user-api";
 import { useCreateCheckoutSession } from "@/api/order-api";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export interface CartItem {
   _id: string;
@@ -29,10 +34,13 @@ export interface CartItem {
 export default function DetailPage() {
   const { restaurantId } = useParams();
   const { data, isLoading } = useGetRestaurant(restaurantId);
-  const { createCheckoutSession, isLoading: isCheckoutLoading } = useCreateCheckoutSession()
-  const {currentUser} = useGetCurrentUser();
+  const { createCheckoutSession, isLoading: isCheckoutLoading } =
+    useCreateCheckoutSession();
+  const { currentUser } = useGetCurrentUser();
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
-    const storedCartItems = sessionStorage.getItem(`cartItems-${restaurantId}-${currentUser?._id}`);
+    const storedCartItems = sessionStorage.getItem(
+      `cartItems-${restaurantId}-${currentUser?._id}`
+    );
     return storedCartItems ? JSON.parse(storedCartItems) : [];
   });
 
@@ -81,14 +89,14 @@ export default function DetailPage() {
     });
   };
 
-  const onCheckout = async(userData: UserFormData) => {
-    if(!data?.restaurant) return;
-    
+  const onCheckout = async (userData: UserFormData) => {
+    if (!data?.restaurant) return;
+
     const checkoutData = {
       cartItems: cartItems.map((cartItem) => ({
         name: cartItem.name,
         quantity: cartItem.quantity.toString(),
-        menuItemId: cartItem._id
+        menuItemId: cartItem._id,
       })),
 
       restaurantId: data.restaurant._id,
@@ -97,17 +105,17 @@ export default function DetailPage() {
         email: userData.email as string,
         addressLine1: userData.addressLine1,
         city: userData.city,
-        country: userData.country
-      }
-    }
+        country: userData.country,
+      },
+    };
 
-    const response = await createCheckoutSession(checkoutData)
-    sessionStorage.removeItem(`cartItems-${restaurantId}-${currentUser?._id}`)
+    const response = await createCheckoutSession(checkoutData);
+    sessionStorage.removeItem(`cartItems-${restaurantId}-${currentUser?._id}`);
     window.location.href = response.url;
-  }
+  };
 
   if (isLoading || !data) {
-    return <div>Loading...</div>;
+    return <DetailPageSkeleton />;
   }
 
   return (
@@ -142,7 +150,79 @@ export default function DetailPage() {
               cartItems={cartItems}
             />
             <CardFooter>
-              <CheckoutButton onCheckout={onCheckout} isLoading={isCheckoutLoading} disabled={cartItems.length === 0} />
+              <CheckoutButton
+                onCheckout={onCheckout}
+                isLoading={isCheckoutLoading}
+                disabled={cartItems.length === 0}
+              />
+            </CardFooter>
+          </Card>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function DetailPageSkeleton() {
+  return (
+    <div className="flex flex-col gap-4">
+      <AspectRatio ratio={16 / 5}>
+        <Skeleton className="h-full w-full rounded-md" />
+      </AspectRatio>
+      <div className="grid md:grid-cols-[4fr_2fr] gap-5 ">
+        <div className="flex flex-col gap-4">
+          <RestaurantInfoSkeleton />
+          <Card>
+            <CardHeader>
+              <CardTitle>
+                <Skeleton className="h-8 w-24" />
+              </CardTitle>
+              <CardDescription>
+                <Skeleton className="w-64 h-6" />
+              </CardDescription>
+              <Separator />
+            </CardHeader>
+
+            <CardContent className="space-y-2 ">
+              {new Array(4).fill(" ").map((_, idx) => (
+                <div key={idx} className="flex justify-between">
+                  <Skeleton className="h-6 w-32" />
+                  <div className="flex flex-row gap-4">
+                    <Skeleton className="h-6 w-12" />
+                    <Skeleton className="h-6 w-6 " />
+                  </div>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+        </div>
+        <div>
+          <Card>
+            <CardHeader>
+              <CardTitle>
+                <Skeleton className="h-8 w-24" />
+              </CardTitle>
+              <CardDescription>
+                <Skeleton className="w-64 h-6" />
+              </CardDescription>
+              <Separator />
+            </CardHeader>
+            <CardContent className="space-y-2">
+              {new Array(4).fill(" ").map((_, idx) => (
+                <div key={idx} className="flex justify-between">
+                  <div className="flex flex-row items-center gap-2">
+                    <Skeleton className="h-6 w-6 " />
+                    <Skeleton className="h-6 w-32" />
+                  </div>
+                  <div className="flex flex-row gap-4">
+                    <Skeleton className="h-6 w-6 " />
+                  </div>
+                </div>
+              ))}
+              <Separator />
+            </CardContent>
+            <CardFooter>
+              <Skeleton className="w-full h-8" />
             </CardFooter>
           </Card>
         </div>

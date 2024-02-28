@@ -8,6 +8,7 @@ import {
 } from "./ui/card";
 import { LocateFixedIcon } from "lucide-react";
 import { Button } from "./ui/button";
+import { Skeleton } from "./ui/skeleton";
 
 type Props = {
   restaurant: TRestaurant;
@@ -41,4 +42,28 @@ export function RestaurantInfo({ restaurant }: Props) {
       </CardContent>
     </Card>
   );
+}
+
+
+
+export function RestaurantInfoSkeleton(){
+  return (
+    <div className="w-full rounded-md space-y-4 border p-4">
+     <Skeleton className="h-8 w-64" />
+     <div className="flex items-center gap-4">
+      <Skeleton className="rounded-full w-4 h-4" />
+      <Skeleton className="h-6 w-24" />
+      <Skeleton className="h-6 w-24" />
+     </div>
+     <Skeleton className="h-24 w-full" />
+     <div className="space-y-2">
+      <Skeleton className="h-8 w-64" />
+      <div className="flex flex-wrap gap-4">
+      {
+        new Array(5).fill("").map((_,idx) => <Skeleton className="h-8 w-24" key={idx} />)
+      }
+      </div>
+     </div>
+    </div>
+  )
 }
