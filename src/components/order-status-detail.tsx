@@ -2,6 +2,7 @@ import { TOrder } from '@/types/types'
 import { Badge } from './ui/badge';
 import { Separator } from './ui/separator';
 import { DollarSign } from 'lucide-react';
+import { Skeleton } from './ui/skeleton';
 
 type Props = {
     order: TOrder;
@@ -34,4 +35,34 @@ export function OrderStatusDetail({order}: Props) {
         </div>
     </div>
   )
+}
+
+export function OrderStatusDetailSkeleton(){
+    return (
+        <div className='space-y-5'>
+            <div className="flex gap-3 flex-col">
+                <Skeleton className='h-8 w-64' />
+                <Skeleton className='h-8 w-32' />
+            </div>
+            <div className="flex gap-2 flex-col">
+            <Skeleton className='h-8 w-32' />
+            <ul role='list' className='flex flex-col gap-2'>
+                {
+                    [1,2,3].map(item => (
+                        <div key={item} className="flex flex-row items-center gap-4">
+                            <Skeleton className='h-4 w-16' />
+                            <Skeleton className='h-4 w-4' />
+                            <Skeleton className='h-4 w-24' />
+                        </div>
+                        ))
+                }
+            </ul>
+        </div>
+        <Separator />
+        <div className="flex flex-col gap-2">
+                    <Skeleton className='w-24 h-8' />
+                    <Skeleton className='w-16 h-8' />
+        </div>
+        </div>
+    )
 }

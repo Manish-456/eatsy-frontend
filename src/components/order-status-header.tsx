@@ -3,6 +3,7 @@ import { TOrder } from "@/types/types";
 import { Separator } from "./ui/separator";
 import { Progress } from "./ui/progress";
 import { ORDER_STATUSES } from "@/config/order-status-config";
+import { Skeleton } from "./ui/skeleton";
 
 type Props = {
   order: TOrder;
@@ -43,4 +44,17 @@ export function OrderStatusHeader({ order }: Props) {
       <Separator />
     </>
   );
+}
+
+export function OrderStatusHeaderSkeleton(){
+  return (
+    <>
+    <div className="flex gap-4 flex-col md:flex-row md:justify-between">
+    <Skeleton className="w-80 h-8" />
+    <Skeleton className="w-32 h-8" />
+    </div>
+      <Skeleton className="w-full h-3" />
+      <Separator />
+    </>
+  )
 }
