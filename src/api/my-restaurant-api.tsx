@@ -109,6 +109,7 @@ export const useRemoveRestaurantImage = () => {
   if (isSuccess) {
     toast.success(`Image removed successfully`);
   }
+
   if (error) {
     toast.error(`Failed to remove image`);
   }
@@ -254,7 +255,7 @@ export const useRemoveMyRestaurantMenu = () => {
    return response.json();
   }
 
-  const {mutate: removeMenuItem, isLoading, error, isSuccess} = useMutation(removeMyRestaurantMenuRequest, {
+  const {mutate: removeMenuItem, isLoading, error} = useMutation(removeMyRestaurantMenuRequest, {
     onSuccess: () => queryClient.invalidateQueries("myRestaurant")
   })
   
