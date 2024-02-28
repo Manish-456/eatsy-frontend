@@ -8,9 +8,10 @@ import { useFormContext } from "react-hook-form";
 type Props = {
   index: number;
   removeMenuItem: () => void;
+  isLoading: boolean;
 };
 
-export default function MenuItemInput({ index, removeMenuItem }: Props) {
+export default function MenuItemInput({ index, removeMenuItem, isLoading }: Props) {
   const { control } = useFormContext();
   return (
     <div className="flex-row items-end flex gap-2">
@@ -20,7 +21,7 @@ export default function MenuItemInput({ index, removeMenuItem }: Props) {
         render={({ field }) => <FormItem>
             <FormLabel>Name <FormMessage /></FormLabel>
             <FormControl>
-                <Input {...field} placeholder="Cheese Burger" />
+                <Input disabled={isLoading} {...field} placeholder="Cheese Burger" />
             </FormControl>
         </FormItem>}
       />
@@ -30,7 +31,7 @@ export default function MenuItemInput({ index, removeMenuItem }: Props) {
         render={({ field }) => <FormItem>
             <FormLabel>Price ($) <FormMessage /></FormLabel>
             <FormControl>
-                <Input {...field} placeholder="8.00" />
+                <Input disabled={isLoading} {...field} placeholder="8.00" />
             </FormControl>
         </FormItem>}
       />

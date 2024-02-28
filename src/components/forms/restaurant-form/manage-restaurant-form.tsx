@@ -67,6 +67,8 @@ export function ManageRestaurantForm({
   isRestaurantDataLoading,
   restaurant: restaurantData,
 }: ManageRestaurantProps) {
+  const hasRestaurant = !!restaurantData;
+
   const form = useForm<RestaurantFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -154,7 +156,7 @@ export function ManageRestaurantForm({
         <Separator />
         <CuisineSection />
         <Separator />
-        <MenuSection />
+        <MenuSection hasRestaurant={hasRestaurant}/>
         <Separator />
         <ImageSection />
         <Separator />

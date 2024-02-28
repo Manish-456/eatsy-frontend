@@ -233,3 +233,39 @@ export const useUpdateMyRestaurantOrder = () => {
     isLoading
   }
 };
+
+
+export const useRemoveMyRestaurantMenu = () => {
+  const { getAccessTokenSilently } = useAuth0();
+  const queryClient = useQueryClient();
+
+  const removeMyRestaurantMenuRequest = async(menuItemId: string) => {
+   const accessToken = await getAccessTokenSilently();
+
+   const response: any = await fetch(`${API_BASE_URL}/api/my/restaurant/menu-item/${menuItemId}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    }
+   });
+
+   if(!response.ok) throw new Error(response.message);
+
+   return response.json();
+  }
+
+  const {mutate: removeMenuItem, isLoading, error, isSuccess} = useMutation(removeMyRestaurantMenuRequest, {
+    onSuccess: () => queryClient.invalidateQueries("myRestaurant")
+  })
+  
+  if(error){
+    toast.error(`Failed to remove menu. Please check if this menu item already ordered.`)
+  }  
+
+
+  return {
+    removeMenuItem,
+    isLoading
+  }
+
+}

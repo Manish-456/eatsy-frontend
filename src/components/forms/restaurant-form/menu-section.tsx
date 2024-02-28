@@ -2,8 +2,18 @@ import { Button } from '@/components/ui/button';
 import { FormDescription, FormField, FormItem } from '@/components/ui/form';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import MenuItemInput from './menu-item-input';
+import { useRemoveMyRestaurantMenu } from '@/api/my-restaurant-api';
 
-export  function MenuSection() {
+type MenuSectionProps = {
+  hasRestaurant? : boolean;
+}
+
+type FieldType = Record<string, string>;
+
+export  function MenuSection({
+  hasRestaurant
+}: MenuSectionProps) {
+  const { removeMenuItem: removeMyRestaurantMenu, isLoading } = useRemoveMyRestaurantMenu()
    const { control } = useFormContext()
    const { fields, append, remove} = useFieldArray({
     control,
@@ -23,8 +33,14 @@ export  function MenuSection() {
     render={() => ( 
         <FormItem className='flex flex-col gap-2'>
             {
-                fields.map((_, idx) => (
-                    <MenuItemInput removeMenuItem={() => remove(idx)} index={idx} key={idx} />
+                fields.map((field: FieldType, idx) => (
+                    <MenuItemInput removeMenuItem={() => {
+                      if(!hasRestaurant || !field._id){
+                        remove(idx)
+                      }else{
+                        removeMyRestaurantMenu(field._id);
+                      }
+                    }} index={idx} isLoading={isLoading} key={idx} />
                 ))
             }
         </FormItem>
