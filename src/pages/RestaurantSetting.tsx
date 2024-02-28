@@ -5,7 +5,7 @@ import {
   useUpdateRestaurant,
 } from "@/api/my-restaurant-api";
 import { ManageRestaurantForm } from "@/components/forms/restaurant-form/manage-restaurant-form";
-import { OrderItemCard } from "@/components/order-item-card";
+import { OrderItemCard, OrderItemSkeleton } from "@/components/order-item-card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function RestaurantSetting() {
@@ -17,6 +17,8 @@ export default function RestaurantSetting() {
     const { myRestaurantOrders: orders } = useGetMyRestaurantOrder()
 
   const isEditing = !!restaurant;
+
+  if(isRestaurantDataLoading) return  <OrderItemSkeleton />
 
 
   return (
@@ -46,3 +48,4 @@ export default function RestaurantSetting() {
     </div>
   );
 }
+

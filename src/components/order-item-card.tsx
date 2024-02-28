@@ -14,6 +14,7 @@ import { Label } from "./ui/label";
 import { ORDER_STATUSES } from "@/config/order-status-config";
 import { useUpdateMyRestaurantOrder } from "@/api/my-restaurant-api";
 import { useEffect, useState } from "react";
+import { Skeleton } from "./ui/skeleton";
 
 type Props = {
   order: TOrder;
@@ -107,3 +108,46 @@ export function OrderItemCard({ order }: Props) {
     </Card>
   );
 }
+
+export const OrderItemSkeleton = () => {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="grid md:grid-cols-4 gap-4 md:gap-10 justify-between mb-3">
+          <div>
+            <Skeleton className="w-32 h-5 mb-1" />
+            <Skeleton className="w-24 h-4 mb-1" />
+          </div>
+          <div>
+            <Skeleton className="w-48 h-5 mb-1" />
+            <Skeleton className="w-48 h-4 mb-1" />
+            <Skeleton className="w-48 h-4 mb-1" />
+          </div>
+          <div>
+            <Skeleton className="w-24 h-5 mb-1" />
+            <Skeleton className="w-48 h-5 mb-1" />
+          </div>
+          <div>
+            <Skeleton className="w-24 h-5 mb-1" />
+            <Skeleton className="w-48 h-5 mb-1" />
+          </div>
+        </CardTitle>
+        <Separator />
+      </CardHeader>
+      <CardContent className="flex flex-col gap-6">
+        <div className="flex flex-col gap-2">
+          {Array.from({ length: 5 }, (_, i) => (
+            <div key={i} className="flex flex-row gap-2">
+                <Skeleton className="h-5 w-5" />
+              <Skeleton className="w-40 h-4 mb-1" />
+            </div>
+          ))}
+        </div>
+        <div className="space-y-1.5">
+            <Skeleton className="w-64 h-8 mb-1 " />
+        </div>
+      </CardContent>
+    </Card>
+  )
+}
+
